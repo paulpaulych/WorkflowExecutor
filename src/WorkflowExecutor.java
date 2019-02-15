@@ -2,17 +2,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class WorkflowExecutor{
-    BlockFactory blockFactory;
+
+    private BlockFactory blockFactory;
 
     WorkflowExecutor() throws IOException{
         blockFactory = new BlockFactory("/home/paulpaulych/IdeaProjects/WorkflowExecutor/src/config.properties");
-        blockFactory.write();
     }
 
-    public void run(BufferedReader reader) throws IOException {
+    public void run(BufferedReader reader) throws IOException, ClassNotFoundException {
         String command = reader.readLine();
-        while("".equals(command)){
+        while("".equals(command)) {
             command = reader.readLine();
         }
+        Block curBlock = blockFactory.create(command);
     }
 }
