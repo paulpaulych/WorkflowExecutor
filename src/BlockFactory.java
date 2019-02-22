@@ -11,12 +11,13 @@ public class BlockFactory {
         properties.load(fis);
     }
 
-    Block create(String commandName) throws ClassNotFoundException {
-        if(properties.containsKey(commandName)){
-            return Class.forName(properties.getProperty(commandName)).getDeclaringClass().asSubclass();
-        }
-        else{
+    Block create(String commandName) throws ClassCastException, ReflectiveOperationException {
+        if(!properties.containsKey(commandName)){
             throw new ClassNotFoundException("Class for command \""+ commandName+ "\" not found");
         }
+        return (Block) Class
+                .forName(properties.getProperty(commandName))
+                .getDeclaredConstructor()
+                .newInstance();
     }
 }
