@@ -1,35 +1,49 @@
-import javax.swing.text.html.HTMLDocument;
-import java.io.Reader;
-import java.util.Iterator;
 import java.util.Scanner;
 
-public class DescriptionParcer extends Iterator {
+public class DescriptionParcer {
 
-    private Reader reader;
     private Scanner scanner;
     private String curLine;
 
-    DescriptionParcer(Reader reader){
-        scanner = new Scanner(reader);
+    DescriptionParcer(Scanner scanner) throws ParcingException {
+        this.scanner = scanner;
+        while(scanner.hasNextLine()){
+            curLine = scanner.nextLine();
+            if("".equals(curLine)){
+                continue;
+            }
+            if(!"desc".equals(curLine)){
+                throw new ParcingException("No blocks description");
+            }
+            return;
+        }
     }
 
-    @Override
     public boolean hasNext() {
-        if(!scanner.hasNext()){
+        if(!scanner.hasNextLine()){
             return false;
         }
-        curLine = scanner.nextLine();
-        if("sced".equals(curLine)){
-            return false;
+        while(scanner.hasNextLine()){
+            curLine = scanner.nextLine();
+            if(!"".equals(curLine)){
+                break;
+            }
         }
-        if(curLine.matches("[0-9]+ = [a-zA-Z0-9]+")){
-            throw new WrongSintaxisException();
-        }
-        return true;
+        return !"csed".equals(curLine);
     }
 
-    @Override
-    public Object next() {
-        return null;
+    public int getID() throws ParcingException {
+        if(!curLine.matches("[0-9]+[ ]*=[ ]*[a-zA-Z0-9. ]+")){
+            throw new ParcingException("wrong description: " + curLine);
+        }
+        Scanner lineScanner = new Scanner(curLine);
+        return lineScanner.nextInt();
+    }
+
+    public String getCommand()  throws ParcingException {
+        if(!curLine.matches("[0-9]+[ ]*=[ ]*[a-zA-Z0-9. ]+")){
+            throw new ParcingException("wrong description: " + curLine);
+        }
+        return curLine.replaceFirst("[0-9]+[ ]*=[ ]*", "");
     }
 }

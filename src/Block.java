@@ -1,3 +1,5 @@
 public interface Block {
-    void execute(String[] args);
+
+    void execute(TextHolder textHolder, String[] args) throws WorkflowException;
+
 }
