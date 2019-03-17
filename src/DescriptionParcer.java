@@ -1,25 +1,25 @@
 import java.util.Scanner;
 
-public class DescriptionParcer {
+class DescriptionParcer {
 
     private Scanner scanner;
     private String curLine;
 
     DescriptionParcer(Scanner scanner) throws ParcingException {
         this.scanner = scanner;
-        while(scanner.hasNextLine()){
+        if(!scanner.hasNextLine()){
+            throw new ParcingException("No any block description found");
+        }
+        curLine = scanner.nextLine();
+        while("".equals(curLine) & scanner.hasNextLine()){
             curLine = scanner.nextLine();
-            if("".equals(curLine)){
-                continue;
-            }
-            if(!"desc".equals(curLine)){
-                throw new ParcingException("No blocks description");
-            }
-            return;
+        }
+        if(!"desc".equals(curLine)){
+            throw new ParcingException("No any block description found");
         }
     }
 
-    public boolean hasNext() {
+    boolean hasNext() {
         if(!scanner.hasNextLine()){
             return false;
         }
@@ -32,7 +32,7 @@ public class DescriptionParcer {
         return !"csed".equals(curLine);
     }
 
-    public int getID() throws ParcingException {
+    int getID() throws ParcingException {
         if(!curLine.matches("[0-9]+[ ]*=[ ]*[a-zA-Z0-9. ]+")){
             throw new ParcingException("wrong description: " + curLine);
         }
@@ -40,7 +40,7 @@ public class DescriptionParcer {
         return lineScanner.nextInt();
     }
 
-    public String getCommand()  throws ParcingException {
+    String getCommand()  throws ParcingException {
         if(!curLine.matches("[0-9]+[ ]*=[ ]*[a-zA-Z0-9. ]+")){
             throw new ParcingException("wrong description: " + curLine);
         }

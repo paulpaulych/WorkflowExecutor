@@ -1,8 +1,8 @@
 desc
 0 = readfile in.txt
 1 = sort
-2 = replace b c
-3 = grep f
+2 = replace 20 30
+3 = grep 30
 4 = writefile out.txt
 csed
 0->1->2->3->4

@@ -1,6 +1,8 @@
+package blocks;
+
 public class WorkflowException extends Exception{
 
-    WorkflowException(String message){
+    public WorkflowException(String message){
         super(message);
     }
 

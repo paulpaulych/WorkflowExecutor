@@ -1,17 +1,19 @@
+import blocks.WorkflowException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class Main {
 
     public static void main(String[] args) {
-        ArgResolver argResolver = new ArgResolver(args);
+        ArgumentResolver argumentResolver = new ArgumentResolver(args);
 
-        try(BufferedReader reader = argResolver.getReader()){
+        try(BufferedReader reader = argumentResolver.getReader()){
             WorkflowExecutor executor = new WorkflowExecutor();
             executor.run(reader);
         }
-        catch (ParcingException | WorkflowException | IOException | ReflectiveOperationException exc){
-            System.out.println(exc.getMessage());
+        catch (ParcingException | WorkflowException | IOException exc){
+            System.err.println(exc.getMessage());
         }
     }
 }

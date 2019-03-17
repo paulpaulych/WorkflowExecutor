@@ -1,9 +1,9 @@
 import java.io.*;
 
-class ArgResolver {
+class ArgumentResolver {
     private String[] args;
 
-    ArgResolver(String[] args){
+    ArgumentResolver(String[] args){
         this.args = args;
     }
 

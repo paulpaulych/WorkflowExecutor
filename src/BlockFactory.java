@@ -1,23 +1,43 @@
-import java.io.FileInputStream;
+import blocks.Block;
+
 import java.io.IOException;
 import java.util.Properties;
 
 public class BlockFactory {
+
+    private volatile static BlockFactory instance;
+
     private Properties properties;
 
-    BlockFactory(String confFileName) throws IOException {
+    private BlockFactory() throws IOException {
         properties = new Properties();
-        FileInputStream fis = new FileInputStream(confFileName);
-        properties.load(fis);
+        properties.load(BlockFactory.class.getResourceAsStream("block.config"));
     }
 
-    Block create(String commandName) throws ClassCastException, ReflectiveOperationException {
-        if(!properties.containsKey(commandName)){
-            throw new ClassNotFoundException("Class for command \""+ commandName+ "\" not found");
+    public static synchronized BlockFactory getInstance() throws IOException{
+        if(instance == null){
+            synchronized (BlockFactory.class){
+                if(instance == null){
+                    instance = new BlockFactory();
+                }
+            }
         }
-        return (Block) Class
-                .forName(properties.getProperty(commandName))
-                .getDeclaredConstructor()
-                .newInstance();
+        return instance;
+    }
+
+    Block create(String commandName) throws NoSuchBlockException {
+        if(!properties.containsKey(commandName)){
+            throw new NoSuchBlockException("Class for command \""+ commandName+ "\" not found");
+        }
+        Block block;
+        try{
+            block = (Block) Class
+                    .forName(properties.getProperty(commandName))
+                    .getDeclaredConstructor()
+                    .newInstance();
+        }catch (ClassCastException | ReflectiveOperationException exc){
+            throw new NoSuchBlockException("Wrong class specified in config file");
+        }
+        return block;
     }
 }
