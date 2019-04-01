@@ -1,5 +1,7 @@
+package exception;
+
 public class ParcingException extends Exception {
-    ParcingException(String string) {
+    public ParcingException(String string) {
         super(string);
     }
 }

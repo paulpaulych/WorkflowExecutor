@@ -1,4 +1,4 @@
-package blocks;
+package exception;
 
 public class WorkflowException extends Exception{
 

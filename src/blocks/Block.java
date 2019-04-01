@@ -1,5 +1,7 @@
 package blocks;
 
+import exception.WorkflowException;
+
 import java.util.List;
 
 public interface Block {

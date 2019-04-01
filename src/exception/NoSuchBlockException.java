@@ -1,7 +1,7 @@
-import blocks.WorkflowException;
+package exception;
 
 public class NoSuchBlockException extends WorkflowException {
-    NoSuchBlockException(String s){
+    public NoSuchBlockException(String s){
         super(s);
     }
 }

@@ -1,5 +1,5 @@
 desc
-0 = readfile in.txt
+0 = reaxdfile in.txt
 1 = sort
 2 = replace 20 30
 3 = grep 30

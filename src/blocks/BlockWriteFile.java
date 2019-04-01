@@ -1,11 +1,17 @@
 package blocks;
 
+import exception.WorkflowException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
 public class BlockWriteFile implements Block {
+
+    private static final Logger log = LogManager.getLogger();
 
     @Override
     public List<String> execute(List<String> text, String[] args) throws WorkflowException {
@@ -26,6 +32,7 @@ public class BlockWriteFile implements Block {
                 throw new WorkflowException(exc.getMessage());
             }
         }
+        log.info("BlockWriteFile is normally working");
         return text;
     }
 

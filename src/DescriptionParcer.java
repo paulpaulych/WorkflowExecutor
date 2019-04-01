@@ -1,6 +1,12 @@
+import exception.ParcingException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Scanner;
 
 class DescriptionParcer {
+
+    private static final Logger log = LogManager.getLogger();
 
     private Scanner scanner;
     private String curLine;
