@@ -16,6 +16,9 @@ public class BlockSort
 
     @Override
         public List<String> execute(List<String> text, String[] args) throws WorkflowException {
+            if(args.length > 0){
+                throw new WorkflowException("Wrong number of arguments" + this.getClass());
+            }
             if(text == null){
                 throw new WorkflowException("Text is not uploaded");
             }

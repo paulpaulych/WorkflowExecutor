@@ -18,17 +18,19 @@ class ExecutionListIterator {
         String line = scanner.nextLine();
 
         lineScanner = new Scanner(line).useDelimiter("[ ]*->[ ]*");
-        log.debug("ExecutionListIterator created");
+
+        log.debug("java.ExecutionListIterator created");
     }
 
     Integer next() throws WorkflowException {
         if(!lineScanner.hasNext()){
-            log.debug("ExecutionListIterator created");
+            log.debug("End for exec list found");
             return null;
         }
         try{
             return new Integer(lineScanner.next());
         }catch(NumberFormatException exc){
+            log.debug("Wrong format of execution list");
             throw new WorkflowException("Wrong format of execution list");
         }
     }

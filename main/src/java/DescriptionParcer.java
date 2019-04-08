@@ -1,15 +1,14 @@
 import exception.ParcingException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
+import java.net.PasswordAuthentication;
 import java.util.Scanner;
 
 class DescriptionParcer {
 
-    private static final Logger log = LogManager.getLogger();
-
     private Scanner scanner;
     private String curLine;
+    private Integer ID;
+    private String command;
 
     DescriptionParcer(Scanner scanner) throws ParcingException {
         this.scanner = scanner;
@@ -25,9 +24,9 @@ class DescriptionParcer {
         }
     }
 
-    boolean hasNext() {
+    boolean hasNext() throws ParcingException{
         if(!scanner.hasNextLine()){
-            return false;
+            throw new ParcingException("no end of description (csed)");
         }
         while(scanner.hasNextLine()){
             curLine = scanner.nextLine();
@@ -35,21 +34,28 @@ class DescriptionParcer {
                 break;
             }
         }
-        return !"csed".equals(curLine);
-    }
-
-    int getID() throws ParcingException {
-        if(!curLine.matches("[0-9]+[ ]*=[ ]*[a-zA-Z0-9. ]+")){
+        if("csed".equals(curLine)){
+            return false;
+        }
+        if(curLine.matches("[0-9]+[ ]*=[ ]*[a-zA-Z0-9. ]+")) {
+            Scanner lineScanner = new Scanner(curLine);
+            try{
+                ID = lineScanner.nextInt();
+            }catch (Throwable e){
+                throw new ParcingException("wrong id in line " + curLine);
+            }
+            command = curLine.replaceFirst("[0-9]+[ ]*=[ ]*", "");
+            return true;
+        }else{
             throw new ParcingException("wrong description: " + curLine);
         }
-        Scanner lineScanner = new Scanner(curLine);
-        return lineScanner.nextInt();
     }
 
-    String getCommand()  throws ParcingException {
-        if(!curLine.matches("[0-9]+[ ]*=[ ]*[a-zA-Z0-9. ]+")){
-            throw new ParcingException("wrong description: " + curLine);
-        }
-        return curLine.replaceFirst("[0-9]+[ ]*=[ ]*", "");
+    int getID() {
+        return ID;
+    }
+
+    String getCommand() {
+        return command;
     }
 }

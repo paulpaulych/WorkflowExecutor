@@ -4,8 +4,8 @@ import exception.WorkflowException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BlockGrep implements Block {
 
@@ -20,12 +20,7 @@ public class BlockGrep implements Block {
             throw new WorkflowException("Text is not uploaded");
         }
         log.info("BlockGep is normally working");
-        List<String> newText = new ArrayList<>();
-        for(String s : text) {
-            if (s.contains(args[0])) {
-                newText.add(s);
-            }
-        }
-        return newText;
+
+        return text.stream().filter(o -> o.contains(args[0])).collect(Collectors.toList());
     }
 }

@@ -1,3 +1,4 @@
+
 import blocks.Block;
 import exception.NoSuchBlockException;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +18,7 @@ public class BlockFactory {
         properties = new Properties();
         String configFileName = "blockFactory.properties";
         properties.load(BlockFactory.class.getResourceAsStream(configFileName));
-        log.info("BlockFactory created with " + configFileName + " as config file");
+        log.info("java.BlockFactory created with " + configFileName + " as config file");
     }
 
     public static synchronized BlockFactory getInstance() throws IOException{
